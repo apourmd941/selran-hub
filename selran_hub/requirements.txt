@@ -1,0 +1,12 @@
+fastapi>=0.104
+uvicorn>=0.24
+pydantic>=2.0
+duckdb>=0.9
+httpx>=0.25
+psutil>=5.9
+mcp>=1.0
+
+# Selran Launchpad v3: managed-Postgres own-store (sources + auth). Only
+# loaded when HUB_DATABASE_URL is set; dev runs without the orchestrator
+# keep using the JSON files (sources.json / auth.json) with no setup change.
+psycopg[binary]>=3.1

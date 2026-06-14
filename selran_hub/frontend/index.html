@@ -1,0 +1,3132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selran Hub</title>
+  <!-- Shared Selran suite theme — must come first -->
+  <style>/* ============================================================================
+ * Selran Suite — shared theme (v0.1.0)
+ * One portable token layer for every Selran app. Import this FIRST, before the
+ * app's own styles, so apps inherit the shared foundation and may override only
+ * what they need (ideally just --accent for brand identity).
+ *
+ *   <link rel="stylesheet" href="selran-theme.css">   (or @import at top of app CSS)
+ *
+ * Each app keeps its own layout + components — this only sets the palette,
+ * fonts, radii, spacing scale, motion, and safe base element defaults.
+ * Source of truth: theme/design-system.md
+ * ==========================================================================*/
+
+:root {
+  /* ---- color (dark, primary) ---- */
+  --bg:             #0B1220;
+  --bg-subtle:      #0E1626;
+  --surface:        #131C2E;
+  --surface-2:      #1A2438;
+  --border:         #26324A;
+  --border-strong:  #33425F;
+  --fg:             #E8EEF7;
+  --fg-muted:       #9FB0C9;
+  --fg-subtle:      #6E7E98;
+  --accent:         #4F9CF0;   /* an app may override THIS (and the two below) for identity */
+  --accent-hover:   #6FB0F5;
+  --accent-contrast:#07101F;
+  --accent-soft:    #172A45;
+  --success:        #46C08A;
+  --warning:        #E6B450;
+  --danger:         #F0726F;
+  --info:           #4F9CF0;
+  --focus-ring:     #4F9CF0;
+
+  /* ---- type ---- */
+  --font-display: "Geist", -apple-system, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+  --font-body:    "Geist", -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-mono:    "Geist Mono", "SF Mono", "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+  --text-xs: 12px; --text-sm: 13px; --text-base: 14px; --text-md: 16px;
+  --text-lg: 18px; --text-xl: 20px; --text-2xl: 24px; --text-3xl: 30px; --text-4xl: 38px;
+  --leading-tight: 1.2; --leading-normal: 1.5;
+  --tracking-heading: -0.01em;
+
+  /* ---- spacing / radius ---- */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px;
+  --radius-sm: 6px; --radius-md: 8px; --radius-lg: 12px; --radius-pill: 9999px;
+
+  /* ---- motion ---- */
+  --dur-micro: 120ms; --dur-base: 180ms; --dur-slow: 260ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  color-scheme: dark;
+}
+
+/* ---- light theme (set by nav.js: data-theme on <html>; Auto follows OS) ---- */
+html[data-theme="light"] {
+  --bg:             #F2F4F8;
+  --bg-subtle:      #ECEFF5;
+  --surface:        #FFFFFF;
+  --surface-2:      #F4F6FA;
+  --border:         #D5DCE8;
+  --border-strong:  #B9C4D6;
+  --fg:             #16202E;
+  --fg-muted:       #4E5E76;
+  --fg-subtle:      #76869E;
+  --accent:         #2D6FD6;
+  --accent-hover:   #1F5FC4;
+  --accent-contrast:#FFFFFF;
+  --accent-soft:    #E1ECFB;
+  --success:        #188556;
+  --warning:        #9A6B00;
+  --danger:         #C2403D;
+  --info:           #2D6FD6;
+  --focus-ring:     #2D6FD6;
+  color-scheme: light;
+}
+
+/* ---- base element defaults (safe foundation; apps can build on top) ---- */
+.selran-theme,
+:root:has(.selran-theme) { color: var(--fg); }
+
+/* Apply to the app root by adding class="selran-theme" on <body> (or :root). */
+.selran-theme {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.selran-theme h1, .selran-theme h2, .selran-theme h3,
+.selran-theme h4, .selran-theme h5, .selran-theme h6 {
+  font-family: var(--font-display);
+  color: var(--fg);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-heading);
+  font-weight: var(--fw-semibold);
+  margin: 0 0 var(--space-3);
+}
+.selran-theme h1 { font-size: var(--text-3xl); font-weight: var(--fw-bold); }
+.selran-theme h2 { font-size: var(--text-2xl); }
+.selran-theme h3 { font-size: var(--text-xl); }
+
+.selran-theme p { color: var(--fg); margin: 0 0 var(--space-3); }
+.selran-theme small, .selran-theme .muted { color: var(--fg-muted); font-size: var(--text-sm); }
+.selran-theme code, .selran-theme pre, .selran-theme kbd { font-family: var(--font-mono); }
+
+.selran-theme a { color: var(--accent); text-decoration: none; }
+.selran-theme a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+.selran-theme ::placeholder { color: var(--fg-subtle); opacity: 1; }
+.selran-theme ::selection { background: var(--accent-soft); }
+
+/* Inputs inherit the theme instead of defaulting to black-on-white */
+.selran-theme input, .selran-theme textarea, .selran-theme select {
+  background: var(--surface-2);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  transition: border-color var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+}
+.selran-theme input:focus, .selran-theme textarea:focus, .selran-theme select:focus {
+  outline: none;
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 35%, transparent);
+}
+
+/* Visible focus for keyboard users on any interactive element */
+.selran-theme :focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Scrollbars (WebKit) tuned to the dark surface */
+.selran-theme ::-webkit-scrollbar { width: 10px; height: 10px; }
+.selran-theme ::-webkit-scrollbar-thumb { background: var(--surface-2); border-radius: var(--radius-pill); }
+.selran-theme ::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .selran-theme *, .selran-theme *::before, .selran-theme *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+</style>
+  <style>html, body, #root { margin: 0; background: var(--bg); }</style>
+  <script src="/vendor/react.production.min.js"></script>
+  <script src="/vendor/react-dom.production.min.js"></script>
+  <script src="/vendor/babel.min.js"></script>
+</head>
+<body class="selran-theme">
+  <script src="/hub/nav.js"></script>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback, useRef } = React;
+
+    // ─── theme.js ──────────────────────────────────────────
+/**
+ * Theme configuration for the Selran Hub.
+ *
+ * Centralizes all color constants, icons, labels, and global CSS styles.
+ * This makes it easy to maintain consistent branding and quickly adjust colors
+ * across the entire application.
+ */
+
+/**
+ * Color palette for the dashboard.
+ *
+ * Remapped onto the shared Selran suite theme (see src/selran-theme.css and
+ * Selran-Launchpad-V3/theme/selran-theme.css). These keys keep their original
+ * names so existing components are unchanged — only the values are repointed to
+ * the shared palette so the hub matches the rest of the Selran suite.
+ * @type {Object}
+ */
+const C = {
+  // Live references into the shared theme variables (see <style> above), so
+  // the dashboard follows the dark/light/system toggle without a reload —
+  // inline styles resolve var() against whatever html[data-theme] selects.
+
+  // Background colors  →  --bg / --bg-subtle
+  bg: "var(--bg)",          // Primary background
+  bgAlt: "var(--bg-subtle)", // Secondary background (slightly lighter)
+
+  // Surface colors (cards, panels)  →  --surface / --surface-2
+  surface: "var(--surface)",      // Main surface color
+  surfaceHover: "var(--surface-2)", // Hover state for surfaces
+
+  // Border colors  →  --border / --border-strong
+  border: "var(--border)",        // Standard border
+  borderLight: "var(--border-strong)", // Lighter border for subtle separators
+
+  // Text colors  →  --fg / --fg-muted / --fg-subtle
+  text: "var(--fg)",       // Primary text
+  textDim: "var(--fg-muted)",  // Dimmed text (secondary information)
+  textMuted: "var(--fg-subtle)", // Muted text (tertiary/disabled)
+
+  // Accent colors (primary UI interactions)  →  --accent / --accent-hover
+  accent: "var(--accent)",       // Primary accent (shared Selran blue)
+  accentHover: "var(--accent-hover)",  // Accent hover state
+  accentContrast: "var(--accent-contrast)", // Readable text/icon color on the accent fill
+  accentBg: "var(--accent-soft)", // Accent background tint
+
+  // Status colors  →  --success / --danger / --warning / --info
+  // (the *Bg tints stay translucent so they sit naturally on either theme)
+  green: "var(--success)",        // Success/online status
+  greenBg: "rgba(70,192,138,0.12)", // Green background
+
+  red: "var(--danger)",          // Error/offline status
+  redBg: "rgba(240,114,111,0.12)",  // Red background
+
+  amber: "var(--warning)",        // Warning/read-only status
+  amberBg: "rgba(230,180,80,0.14)", // Amber background
+
+  blue: "var(--info)",         // Info color (shared --info)
+  blueBg: "rgba(79,156,240,0.12)",  // Blue background
+};
+
+/**
+ * Icon emojis for different data source types.
+ * @type {Object}
+ */
+const icons = {
+  folder: "📁",      // Local folder/file system
+  duckdb: "🦆",      // DuckDB database
+  sqlite: "🗃️",      // SQLite database
+  api: "🌐",         // REST API endpoint
+};
+
+/**
+ * Display labels for different data source types.
+ * @type {Object}
+ */
+const labels = {
+  folder: "Folder",
+  duckdb: "DuckDB",
+  sqlite: "SQLite",
+  api: "REST API",
+};
+
+/**
+ * Global CSS styles for the application.
+ * Includes reset styles, animations, and component styling.
+ * Injected into a <style> tag in the HTML head.
+ */
+const css = `
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Geist", -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    background: ${C.bg};
+    color: ${C.text};
+    line-height: 1.5;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, ${C.accent} 30%, transparent);
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${C.border};
+    border-radius: 3px;
+  }
+
+  /* Form inputs — scoped under .selran-theme so these keep the hub's own
+     padding/radius (matching the shared theme's specificity, later source order
+     wins) while using the shared palette via C. */
+  .selran-theme input,
+  .selran-theme select,
+  .selran-theme textarea {
+    font-family: inherit;
+    font-size: 14px;
+    background: ${C.bgAlt};
+    color: ${C.text};
+    border: 1px solid ${C.border};
+    border-radius: 8px;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .selran-theme input:focus,
+  .selran-theme select:focus,
+  .selran-theme textarea:focus {
+    border-color: ${C.accent};
+  }
+
+  /* Buttons */
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.15s;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .spin {
+    animation: spin 0.8s linear infinite;
+  }
+`;
+
+    // ─── api.js ──────────────────────────────────────────
+/**
+ * API helper functions for the Selran Hub.
+ *
+ * Centralizes all API calls to the backend, making it easy to:
+ * - Change the API base URL in one place
+ * - Add common headers or authentication
+ * - Handle consistent error patterns
+ * - Mock API calls during testing
+ */
+
+const API = "/api";
+
+/**
+ * Fetch all data sources from the backend.
+ * @returns {Promise<Array>} Array of source objects
+ */
+const fetchSources = () =>
+  fetch(`${API}/sources`).then((r) => r.json());
+
+/**
+ * Fetch dashboard statistics (total, online, offline, error counts).
+ * @returns {Promise<Object>} Statistics object with counts and type breakdown
+ */
+const fetchStats = () =>
+  fetch(`${API}/stats`).then((r) => r.json());
+
+/**
+ * Fetch list of tables/files for a specific data source.
+ * @param {string} sourceId - The source ID
+ * @returns {Promise<Object>} Object with tables array
+ */
+const fetchSourceTables = (sourceId) =>
+  fetch(`${API}/sources/${sourceId}/tables`).then((r) => r.json());
+
+/**
+ * Fetch preview data from a table/file.
+ * @param {string} sourceId - The source ID
+ * @param {string} tableName - The table or file name
+ * @param {number} limit - Max rows to preview (default: 10)
+ * @returns {Promise<Object>} Preview data with columns, rows, and row count
+ */
+const fetchTablePreview = (sourceId, tableName, limit = 10) =>
+  fetch(
+    `${API}/sources/${sourceId}/preview/${encodeURIComponent(tableName)}?limit=${limit}`
+  ).then((r) => r.json());
+
+/**
+ * Execute a SQL query against a source.
+ * @param {string} sourceId - The source ID
+ * @param {string} sql - SQL query string
+ * @param {number} limit - Max rows to return (default: 100)
+ * @returns {Promise<Object>} Query results with columns, rows, row_count, and optional error
+ */
+const executeQuery = (sourceId, sql, limit = 100) =>
+  fetch(`${API}/sources/${sourceId}/query`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sql, limit }),
+  }).then((r) => r.json());
+
+/**
+ * Create a new data source.
+ * @param {Object} source - Source object with name, type, path/url, description, rules
+ * @returns {Promise<Object>} Created source object
+ */
+const createSource = (source) =>
+  fetch(`${API}/sources`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(source),
+  }).then((r) => r.json());
+
+/**
+ * Update an existing data source.
+ * @param {string} sourceId - The source ID
+ * @param {Object} updates - Partial source object with fields to update
+ * @returns {Promise<Object>} Updated source object
+ */
+const updateSource = (sourceId, updates) =>
+  fetch(`${API}/sources/${sourceId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updates),
+  }).then((r) => r.json());
+
+/**
+ * Delete a data source.
+ * @param {string} sourceId - The source ID
+ * @returns {Promise<void>}
+ */
+const deleteSource = (sourceId) =>
+  fetch(`${API}/sources/${sourceId}`, {
+    method: "DELETE",
+  }).then((r) => r.json());
+
+/**
+ * Toggle a source's enabled/disabled state.
+ * @param {string} sourceId - The source ID
+ * @returns {Promise<Object>} Updated source object
+ */
+const toggleSource = (sourceId) =>
+  fetch(`${API}/sources/${sourceId}/toggle`, {
+    method: "POST",
+  }).then((r) => r.json());
+
+/**
+ * Check the health/status of a source by connecting to it.
+ * @param {string} sourceId - The source ID
+ * @returns {Promise<Object>} Health check result
+ */
+const checkSource = (sourceId) =>
+  fetch(`${API}/sources/${sourceId}/check`, {
+    method: "POST",
+  }).then((r) => r.json());
+
+/**
+ * Open a file/folder browser dialog.
+ * @param {string} mode - "folder" or "file"
+ * @returns {Promise<Object>} Object with path, or headless/error properties
+ */
+const browsePath = (mode) =>
+  fetch(`${API}/browse?mode=${mode}`).then((r) => r.json());
+
+/**
+ * Export all sources as JSON.
+ * @returns {Promise<Object>} Object with sources array
+ */
+const exportSources = () =>
+  fetch(`${API}/sources/export`).then((r) => r.json());
+
+/**
+ * Import sources from JSON.
+ * @param {Array} sources - Array of source objects
+ * @returns {Promise<Object>} Import result with imported and skipped counts
+ */
+const importSources = (sources) =>
+  fetch(`${API}/sources/import`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sources: Array.isArray(sources) ? sources : [sources] }),
+  }).then((r) => r.json());
+
+/**
+ * Fetch MCP configuration in the specified format.
+ * @param {string} format - "claude" or "generic"
+ * @param {string} transport - "stdio" or "sse"
+ * @returns {Promise<Object>} MCP config object
+ */
+const fetchMCPConfig = (format = "claude", transport = "stdio") =>
+  fetch(
+    `${API}/mcp-config?format=${format}&transport=${transport}`
+  ).then((r) => r.json());
+
+/**
+ * Install MCP configuration to the local system.
+ * @param {string} format - "claude" or "generic"
+ * @param {string} transport - "stdio" or "sse"
+ * @returns {Promise<Object>} Installation result
+ */
+const installMCPConfig = (format = "claude", transport = "stdio") =>
+  fetch(
+    `${API}/mcp-config/install?format=${format}&transport=${transport}`,
+    { method: "POST" }
+  ).then((r) => r.json());
+
+/**
+ * Fetch request logs from the server.
+ * @param {number} limit - Max logs to return (default: 200)
+ * @param {string} level - "all", "success", or "error"
+ * @returns {Promise<Object>} Object with logs array
+ */
+const fetchLogs = (limit = 200, level = "all") =>
+  fetch(`${API}/logs?limit=${limit}&level=${level}`).then((r) => r.json());
+
+/**
+ * Fetch authentication status.
+ * @returns {Promise<Object>} Object with enabled boolean
+ */
+const fetchAuthStatus = () =>
+  fetch(`${API}/auth/status`).then((r) => r.json());
+
+/**
+ * Configure authentication settings.
+ * @param {boolean} enabled - Whether to enable API key authentication
+ * @returns {Promise<Object>} Auth config with enabled, api_key, and message
+ */
+const configureAuth = (enabled) =>
+  fetch(`${API}/auth/configure`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ enabled }),
+  }).then((r) => r.json());
+
+/**
+ * Fetch system information.
+ * @returns {Promise<Object>} System info with version, platform, python, headless flag
+ */
+const fetchSystemInfo = () =>
+  fetch(`${API}/info`).then((r) => r.json());
+
+/**
+ * Run installation verification check.
+ * @returns {Promise<Object>} Object with checks array and summary
+ */
+const fetchSystemCheck = () =>
+  fetch(`${API}/system-check`).then((r) => r.json());
+
+    // ─── StatusDot.jsx ──────────────────────────────────────────
+/**
+ * StatusDot component - displays a small colored circle indicating status.
+ *
+ * Used in badges and status indicators throughout the dashboard to show
+ * whether a data source is online, offline, or in error state.
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.status - Status value: "online", "error", or other
+ * @returns {JSX.Element} Styled status dot element
+ */
+
+
+
+function StatusDot({ status }) {
+  // Color changes based on status
+  const color =
+    status === "online" ? C.green : status === "error" ? C.red : C.textMuted;
+
+  // Online status gets a glow effect for visibility
+  const boxShadow =
+    status === "online" ? `0 0 6px ${color}` : "none";
+
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        width: 8,
+        height: 8,
+        borderRadius: "50%",
+        background: color,
+        boxShadow: boxShadow,
+      }}
+    />
+  );
+}
+
+    // ─── Badge.jsx ──────────────────────────────────────────
+/**
+ * Badge component - displays a small labeled pill with background color.
+ *
+ * Used for status indicators, type labels, and other metadata display
+ * throughout the dashboard. Designed to be compact and visually distinct.
+ *
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Content to display (usually text or text + icon)
+ * @param {string} props.color - Text color (hex value)
+ * @param {string} props.bg - Background color (hex value or rgba)
+ * @returns {JSX.Element} Styled badge element
+ */
+
+function Badge({ children, color, bg }) {
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 4,
+        padding: "2px 10px",
+        borderRadius: 20,
+        fontSize: 12,
+        fontWeight: 500,
+        color: color,
+        background: bg,
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+    // ─── Btn.jsx ──────────────────────────────────────────
+/**
+ * Btn and SmallBtn components - primary UI buttons.
+ *
+ * Btn: Standard-sized button for major actions (add, save, submit).
+ * SmallBtn: Compact circular buttons for icon-only actions (edit, delete, refresh).
+ *
+ * Both components support hover states and can be disabled.
+ */
+
+
+
+
+/**
+ * Standard button component with optional primary or danger styling.
+ *
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Button label or content
+ * @param {Function} props.onClick - Click handler
+ * @param {boolean} props.primary - If true, use accent color and filled style
+ * @param {boolean} props.danger - If true, use red color for destructive actions
+ * @param {boolean} props.small - If true, use smaller padding/font size
+ * @param {boolean} props.disabled - If true, button is non-interactive
+ * @param {Object} props.style - Additional inline styles
+ * @returns {JSX.Element} Button element
+ */
+function Btn({
+  children,
+  onClick,
+  primary,
+  danger,
+  small,
+  disabled,
+  style: xs,
+}) {
+  const [h, setH] = useState(false);
+
+  let bg = "transparent";
+  let fg = C.text;
+  let bd = C.border;
+
+  if (primary) {
+    bg = C.accent;
+    fg = C.accentContrast;
+    bd = C.accent;
+  }
+
+  if (danger) {
+    bg = h ? C.redBg : "transparent";
+    fg = C.red;
+    bd = C.red;
+  }
+
+  if (h && primary) {
+    bg = C.accentHover;
+  }
+
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        padding: small ? "6px 14px" : "10px 20px",
+        borderRadius: 8,
+        fontSize: small ? 13 : 14,
+        fontWeight: 500,
+        background: bg,
+        color: fg,
+        border: `1px solid ${bd}`,
+        opacity: disabled ? 0.5 : 1,
+        ...xs,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+/**
+ * Small circular button component for icon-only actions.
+ *
+ * Used in source rows and detail panels for quick actions like
+ * edit, delete, toggle, and refresh.
+ *
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Icon/emoji to display
+ * @param {Function} props.onClick - Click handler
+ * @param {string} props.title - Tooltip text on hover
+ * @param {boolean} props.danger - If true, icon turns red on hover
+ * @returns {JSX.Element} Circular button element
+ */
+function SmallBtn({ children, onClick, title, danger }) {
+  const [h, setH] = useState(false);
+
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        width: 30,
+        height: 30,
+        borderRadius: 7,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 13,
+        color: danger && h ? C.red : C.textDim,
+        background: h ? C.bgAlt : "transparent",
+        border: `1px solid ${h ? C.borderLight : "transparent"}`,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+    // ─── StatCard.jsx ──────────────────────────────────────────
+/**
+ * StatCard component - displays a single statistic metric.
+ *
+ * Used in the dashboard header to show key metrics like total sources,
+ * online/offline counts, and error counts.
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.label - Metric label (e.g., "Total Sources")
+ * @param {number|string} props.value - The metric value to display
+ * @param {string} props.color - Text color for the value (hex value)
+ * @param {string} props.icon - Emoji icon to display next to the value
+ * @param {string} props.sub - Optional subtitle/metadata below the value
+ * @returns {JSX.Element} Styled stat card element
+ */
+
+
+
+function StatCard({ label, value, color, icon, sub }) {
+  return (
+    <div
+      style={{
+        background: C.surface,
+        borderRadius: 12,
+        padding: "18px 22px",
+        border: `1px solid ${C.border}`,
+        flex: "1 1 0",
+        minWidth: 140,
+      }}
+    >
+      {/* Label - small text at top */}
+      <div
+        style={{
+          fontSize: 12,
+          color: C.textDim,
+          marginBottom: 6,
+          fontWeight: 500,
+          letterSpacing: 0.5,
+          textTransform: "uppercase",
+        }}
+      >
+        {label}
+      </div>
+
+      {/* Main value with icon */}
+      <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+        <span style={{ fontSize: 28, fontWeight: 700, color: color || C.text }}>
+          {value}
+        </span>
+        {icon && <span style={{ fontSize: 18 }}>{icon}</span>}
+      </div>
+
+      {/* Optional subtitle */}
+      {sub && (
+        <div style={{ fontSize: 12, color: C.textMuted, marginTop: 4 }}>
+          {sub}
+        </div>
+      )}
+    </div>
+  );
+}
+
+    // ─── SearchInput.jsx ──────────────────────────────────────────
+/**
+ * SearchInput component - search field with magnifying glass icon.
+ *
+ * Used to filter the source list by name, path, URL, or description.
+ * Simple wrapper around a standard input with a left-aligned icon.
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.value - Current search query text
+ * @param {Function} props.onChange - Callback when text changes, receives new value
+ * @param {string} props.placeholder - Placeholder text when empty
+ * @returns {JSX.Element} Search input element with icon
+ */
+
+
+
+function SearchInput({ value, onChange, placeholder }) {
+  return (
+    <div style={{ position: "relative" }}>
+      {/* Magnifying glass icon */}
+      <span
+        style={{
+          position: "absolute",
+          left: 12,
+          top: "50%",
+          transform: "translateY(-50%)",
+          fontSize: 14,
+          color: C.textMuted,
+        }}
+      >
+        🔍
+      </span>
+
+      {/* Input field with extra left padding for icon */}
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{
+          width: "100%",
+          paddingLeft: 36,
+          background: C.bgAlt,
+        }}
+      />
+    </div>
+  );
+}
+
+    // ─── TabBar.jsx ──────────────────────────────────────────
+/**
+ * TabBar component - horizontal tab navigation with optional counts.
+ *
+ * Used to filter sources by type (All, Folder, DuckDB, SQLite, API)
+ * and to switch between panels (Export/Import, etc.).
+ *
+ * @param {Object} props - Component props
+ * @param {Array<{id: string, label: string, count?: number}>} props.tabs - Tab definitions
+ * @param {string} props.active - ID of the currently active tab
+ * @param {Function} props.onChange - Callback when a tab is clicked, receives tab ID
+ * @returns {JSX.Element} Tab navigation bar
+ */
+
+
+
+function TabBar({ tabs, active, onChange }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: 2,
+        background: C.bgAlt,
+        borderRadius: 10,
+        padding: 3,
+      }}
+    >
+      {tabs.map((t) => (
+        <button
+          key={t.id}
+          onClick={() => onChange(t.id)}
+          style={{
+            padding: "7px 16px",
+            borderRadius: 8,
+            fontSize: 13,
+            fontWeight: active === t.id ? 600 : 400,
+            background: active === t.id ? C.surface : "transparent",
+            color: active === t.id ? C.text : C.textDim,
+            border: active === t.id ? `1px solid ${C.border}` : "1px solid transparent",
+          }}
+        >
+          {t.label}
+          {t.count != null && (
+            <span style={{ marginLeft: 6, fontSize: 11, color: C.textMuted }}>
+              ({t.count})
+            </span>
+          )}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+    // ─── SourceRow.jsx ──────────────────────────────────────────
+/**
+ * SourceRow component - displays a single data source in the list.
+ *
+ * Shows source icon, name, path/URL, status badge, and action buttons.
+ * Action buttons (check, edit, toggle, delete) only appear on hover.
+ *
+ * @param {Object} props - Component props
+ * @param {Object} props.source - Source object with id, name, type, path, url, status, enabled, etc.
+ * @param {Function} props.onSelect - Callback when row is clicked, receives source object
+ * @param {Function} props.onToggle - Callback to enable/disable source, receives source ID
+ * @param {Function} props.onCheck - Callback to check source health, receives source ID
+ * @param {Function} props.onDelete - Callback to delete source, receives source ID
+ * @param {Function} props.onEdit - Callback to edit source, receives source object
+ * @returns {JSX.Element} Styled source row element
+ */
+
+
+
+
+
+
+
+function SourceRow({
+  source,
+  onSelect,
+  onToggle,
+  onCheck,
+  onDelete,
+  onEdit,
+}) {
+  const [h, setH] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      onClick={() => onSelect(source)}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        padding: "14px 18px",
+        cursor: "pointer",
+        background: h ? C.surfaceHover : "transparent",
+        borderBottom: `1px solid ${C.border}`,
+        transition: "background 0.12s",
+      }}
+    >
+      {/* Source type icon */}
+      <span style={{ fontSize: 22, width: 32, textAlign: "center" }}>
+        {icons[source.type] || "📦"}
+      </span>
+
+      {/* Source name and path/URL */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 600, fontSize: 14 }}>{source.name}</div>
+        <div
+          style={{
+            fontSize: 12,
+            color: C.textDim,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {source.path ||
+            source.url ||
+            source.description ||
+            labels[source.type]}
+        </div>
+      </div>
+
+      {/* Status badge */}
+      <Badge
+        color={
+          source.status === "online"
+            ? C.green
+            : source.status === "error"
+            ? C.red
+            : C.textMuted
+        }
+        bg={
+          source.status === "online"
+            ? C.greenBg
+            : source.status === "error"
+            ? C.redBg
+            : `${C.textMuted}18`
+        }
+      >
+        <StatusDot status={source.status} /> {source.status}
+      </Badge>
+
+      {/* Action buttons (visible on hover) */}
+      <div
+        style={{
+          display: "flex",
+          gap: 4,
+          opacity: h ? 1 : 0,
+          transition: "opacity 0.12s",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <SmallBtn onClick={() => onCheck(source.id)} title="Check health">
+          ↻
+        </SmallBtn>
+        <SmallBtn onClick={() => onEdit(source)} title="Edit">
+          ✎
+        </SmallBtn>
+        <SmallBtn
+          onClick={() => onToggle(source.id)}
+          title={source.enabled ? "Disable" : "Enable"}
+        >
+          {source.enabled ? "⏸" : "▶"}
+        </SmallBtn>
+        <SmallBtn
+          onClick={() => onDelete(source.id)}
+          title="Remove"
+          danger
+        >
+          ✕
+        </SmallBtn>
+      </div>
+    </div>
+  );
+}
+
+    // ─── SourceModal.jsx ──────────────────────────────────────────
+/**
+ * SourceModal component - modal for creating or editing a data source.
+ *
+ * Displays form fields based on source type:
+ * - Folder: requires path
+ * - DuckDB/SQLite: requires path
+ * - API: requires URL
+ * All: name, description, and access rules (read-only, sensitive filter, row limit)
+ *
+ * Includes file/folder browser capability and validation.
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.onClose - Callback to close modal
+ * @param {Function} props.onSubmit - Callback when form submitted, receives (formData, id?)
+ * @param {Object} props.editing - If provided, source object being edited (else creating new)
+ * @returns {JSX.Element} Modal dialog
+ */
+
+
+
+
+
+
+function SourceModal({ onClose, onSubmit, editing }) {
+  // Initialize form state - either from editing source or empty defaults
+  const [form, setForm] = useState(
+    editing
+      ? {
+          name: editing.name,
+          type: editing.type,
+          path: editing.path || "",
+          url: editing.url || "",
+          description: editing.description || "",
+          read_only: editing.rules?.read_only ?? true,
+          row_limit: editing.rules?.row_limit || 1000,
+          sensitive_filter: editing.rules?.sensitive_filter || false,
+        }
+      : {
+          name: "",
+          type: "folder",
+          path: "",
+          url: "",
+          description: "",
+          read_only: true,
+          row_limit: 1000,
+          sensitive_filter: false,
+        }
+  );
+
+  const [browseErr, setBrowseErr] = useState("");
+
+  // Determine which fields are needed based on source type
+  const needsPath = ["folder", "duckdb", "sqlite"].includes(form.type);
+  const needsUrl = form.type === "api";
+
+  /**
+   * Handle form submission with validation.
+   */
+  const handleSubmit = () => {
+    // Validate required fields
+    if (!form.name.trim()) return;
+    if (needsPath && !form.path.trim()) return;
+    if (needsUrl && !form.url.trim()) return;
+
+    // Submit the form
+    onSubmit(
+      {
+        name: form.name,
+        type: form.type,
+        path: needsPath ? form.path : null,
+        url: needsUrl ? form.url : null,
+        description: form.description,
+        rules: {
+          read_only: form.read_only,
+          row_limit: form.row_limit,
+          sensitive_filter: form.sensitive_filter,
+        },
+      },
+      editing?.id
+    );
+  };
+
+  /**
+   * Open file/folder browser dialog.
+   * @param {string} mode - "folder" or "file"
+   */
+  const browse = (mode) => {
+    setBrowseErr("");
+    browsePath(mode)
+      .then((d) => {
+        if (d.headless) {
+          setBrowseErr(d.error);
+          return;
+        }
+        if (d.path) {
+          setForm((f) => ({ ...f, path: d.path }));
+        }
+      })
+      .catch(() => setBrowseErr("Browse failed"));
+  };
+
+  // Common label styling
+  const L = {
+    display: "block",
+    fontSize: 13,
+    fontWeight: 500,
+    color: C.textDim,
+    marginBottom: 6,
+  };
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,.55)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 100,
+      }}
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: C.surface,
+          borderRadius: 16,
+          border: `1px solid ${C.border}`,
+          padding: 28,
+          width: 520,
+          maxHeight: "85vh",
+          overflow: "auto",
+          animation: "fadeIn 0.2s ease",
+        }}
+      >
+        <h2 style={{ fontSize: 19, fontWeight: 700, marginBottom: 22 }}>
+          {editing ? "Edit Source" : "Add Data Source"}
+        </h2>
+
+        {/* Name field */}
+        <label style={L}>Name</label>
+        <input
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          placeholder="e.g. Project Files, Customer DB, Internal API"
+          style={{ width: "100%", marginBottom: 14 }}
+        />
+
+        {/* Type selector (only for new sources) */}
+        {!editing && (
+          <>
+            <label style={L}>Type</label>
+            <div style={{ display: "flex", gap: 6, marginBottom: 14, flexWrap: "wrap" }}>
+              {["folder", "duckdb", "sqlite", "api"].map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setForm({ ...form, type: t })}
+                  style={{
+                    padding: "9px 16px",
+                    borderRadius: 9,
+                    fontSize: 13,
+                    background:
+                      form.type === t ? C.accentBg : C.bgAlt,
+                    border: `1px solid ${form.type === t ? C.accent : C.border}`,
+                    color:
+                      form.type === t ? C.accentHover : C.textDim,
+                    fontWeight: form.type === t ? 600 : 400,
+                  }}
+                >
+                  {icons[t]} {labels[t]}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Path field (for folder, duckdb, sqlite) */}
+        {needsPath && (
+          <>
+            <label style={L}>Path</label>
+            <div style={{ display: "flex", gap: 6, marginBottom: browseErr ? 6 : 14 }}>
+              <input
+                value={form.path}
+                onChange={(e) => setForm({ ...form, path: e.target.value })}
+                placeholder={
+                  form.type === "folder"
+                    ? "/path/to/folder"
+                    : "/path/to/database.duckdb"
+                }
+                style={{ flex: 1 }}
+              />
+              <button
+                onClick={() =>
+                  browse(form.type === "folder" ? "folder" : "file")
+                }
+                style={{
+                  padding: "10px 14px",
+                  borderRadius: 8,
+                  fontSize: 13,
+                  fontWeight: 500,
+                  background: C.bgAlt,
+                  color: C.textDim,
+                  border: `1px solid ${C.border}`,
+                  whiteSpace: "nowrap",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = C.accent;
+                  e.currentTarget.style.color = C.accentHover;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = C.border;
+                  e.currentTarget.style.color = C.textDim;
+                }}
+              >
+                Browse…
+              </button>
+            </div>
+            {browseErr && (
+              <div style={{ fontSize: 12, color: C.amber, marginBottom: 14 }}>
+                {browseErr}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* URL field (for API) */}
+        {needsUrl && (
+          <>
+            <label style={L}>Base URL</label>
+            <input
+              value={form.url}
+              onChange={(e) => setForm({ ...form, url: e.target.value })}
+              placeholder="https://api.example.com/v1"
+              style={{ width: "100%", marginBottom: 14 }}
+            />
+          </>
+        )}
+
+        {/* Description field */}
+        <label style={L}>Description (optional)</label>
+        <input
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          placeholder="Brief description of this data source"
+          style={{ width: "100%", marginBottom: 20 }}
+        />
+
+        {/* Access rules section */}
+        <div style={{ padding: 14, background: C.bgAlt, borderRadius: 10, marginBottom: 20 }}>
+          <div
+            style={{
+              fontSize: 12,
+              fontWeight: 600,
+              marginBottom: 10,
+              color: C.textMuted,
+              letterSpacing: 0.8,
+            }}
+          >
+            ACCESS RULES
+          </div>
+
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              marginBottom: 8,
+              fontSize: 13,
+              cursor: "pointer",
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={form.read_only}
+              onChange={(e) => setForm({ ...form, read_only: e.target.checked })}
+            />
+            Read-only access (recommended)
+          </label>
+
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              marginBottom: 8,
+              fontSize: 13,
+              cursor: "pointer",
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={form.sensitive_filter}
+              onChange={(e) =>
+                setForm({ ...form, sensitive_filter: e.target.checked })
+              }
+            />
+            Filter sensitive columns (PII, credentials)
+          </label>
+
+          <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13 }}>
+            Max rows per query:{" "}
+            <input
+              type="number"
+              value={form.row_limit}
+              onChange={(e) =>
+                setForm({ ...form, row_limit: parseInt(e.target.value) || 1000 })
+              }
+              style={{ width: 90 }}
+            />
+          </label>
+        </div>
+
+        {/* Footer buttons */}
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+          <Btn onClick={onClose}>Cancel</Btn>
+          <Btn primary onClick={handleSubmit}>
+            {editing ? "Save Changes" : "Add Source"}
+          </Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+    // ─── SourceDetail.jsx ──────────────────────────────────────────
+/**
+ * SourceDetail component - right-side panel showing detailed information about a source.
+ *
+ * Displays:
+ * - Header with source name, type, status badges
+ * - Statistics (row count, size, etc.)
+ * - List of tables/files with clickable preview
+ * - Data preview table (10 rows)
+ * - SQL query console with execute button and results table
+ *
+ * @param {Object} props - Component props
+ * @param {Object} props.source - Source object to display
+ * @param {Function} props.onClose - Callback to close the panel
+ * @returns {JSX.Element} Right-side panel element
+ */
+
+
+
+
+
+
+// (removed a stray `import { ... } from "../api"` — these helpers are already
+// defined inline above; the import re-declared them and broke the whole bundle)
+
+function SourceDetail({ source, onClose }) {
+  const [tables, setTables] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [querySQL, setQuerySQL] = useState("");
+  const [queryResult, setQueryResult] = useState(null);
+  const [queryLoading, setQueryLoading] = useState(false);
+
+  // Load tables when source changes
+  useEffect(() => {
+    if (!source) return;
+
+    setLoading(true);
+    setPreview(null);
+    setQueryResult(null);
+    setQuerySQL("");
+
+    fetchSourceTables(source.id)
+      .then((d) => {
+        setTables(d.tables || []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [source?.id]);
+
+  /**
+   * Load preview data for a specific table.
+   */
+  const loadPreview = (name) => {
+    setPreview(null);
+    fetchTablePreview(source.id, name, 10).then(setPreview);
+  };
+
+  /**
+   * Execute SQL query and display results.
+   */
+  const runQuery = () => {
+    if (!querySQL.trim()) return;
+
+    setQueryLoading(true);
+    executeQuery(source.id, querySQL, 100)
+      .then((d) => {
+        setQueryResult(d);
+        setQueryLoading(false);
+      })
+      .catch(() => setQueryLoading(false));
+  };
+
+  if (!source) return null;
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        width: 580,
+        background: C.surface,
+        borderLeft: `1px solid ${C.border}`,
+        overflow: "auto",
+        animation: "slideIn 0.2s ease",
+        zIndex: 50,
+        boxShadow: "-8px 0 30px rgba(0,0,0,.3)",
+      }}
+    >
+      {/* ─── Header ─────────────────────────────────────────────────── */}
+      <div style={{ padding: 22, borderBottom: `1px solid ${C.border}` }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+          }}
+        >
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 26 }}>{icons[source.type]}</span>
+              <h2 style={{ fontSize: 19, fontWeight: 700 }}>{source.name}</h2>
+            </div>
+            <div style={{ color: C.textDim, fontSize: 13, marginTop: 4 }}>
+              {source.path || source.url}
+            </div>
+          </div>
+
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            style={{
+              width: 34,
+              height: 34,
+              borderRadius: 9,
+              fontSize: 15,
+              background: C.bgAlt,
+              color: C.textDim,
+              border: `1px solid ${C.border}`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Status badges */}
+        <div style={{ display: "flex", gap: 6, marginTop: 14, flexWrap: "wrap" }}>
+          <Badge
+            color={source.status === "online" ? C.green : C.red}
+            bg={source.status === "online" ? C.greenBg : C.redBg}
+          >
+            <StatusDot status={source.status} /> {source.status}
+          </Badge>
+          <Badge color={C.blue} bg={C.blueBg}>
+            {labels[source.type]}
+          </Badge>
+          {source.rules?.read_only && (
+            <Badge color={C.amber} bg={C.amberBg}>
+              Read-only
+            </Badge>
+          )}
+        </div>
+      </div>
+
+      {/* ─── Statistics ─────────────────────────────────────────────── */}
+      {source.stats && Object.keys(source.stats).length > 0 && (
+        <div style={{ padding: "14px 22px", borderBottom: `1px solid ${C.border}` }}>
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              color: C.textMuted,
+              marginBottom: 8,
+              letterSpacing: 0.8,
+            }}
+          >
+            STATS
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 20px", fontSize: 13 }}>
+            {Object.entries(source.stats)
+              .filter(([k]) => k !== "error")
+              .map(([k, v]) => (
+                <div key={k}>
+                  <span style={{ color: C.textDim }}>
+                    {k.replace(/_/g, " ")}:{" "}
+                  </span>
+                  <span style={{ fontWeight: 500 }}>
+                    {typeof v === "number" ? v.toLocaleString() : String(v)}
+                  </span>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* Error message */}
+      {source.error && (
+        <div
+          style={{
+            padding: "10px 22px",
+            background: C.redBg,
+            color: C.red,
+            fontSize: 13,
+          }}
+        >
+          Error: {source.error}
+        </div>
+      )}
+
+      {/* ─── Tables/Files List ──────────────────────────────────────── */}
+      <div style={{ padding: 22 }}>
+        <div
+          style={{
+            fontSize: 11,
+            fontWeight: 600,
+            color: C.textMuted,
+            marginBottom: 10,
+            letterSpacing: 0.8,
+          }}
+        >
+          {loading ? "LOADING TABLES..." : `TABLES & FILES (${tables?.length || 0})`}
+        </div>
+
+        {tables?.map((t) => (
+          <div
+            key={t.name}
+            onClick={() => loadPreview(t.name)}
+            style={{
+              padding: "11px 14px",
+              borderRadius: 8,
+              cursor: "pointer",
+              border: `1px solid ${C.border}`,
+              marginBottom: 6,
+              transition: "border-color 0.12s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = C.accent)}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = C.border)}
+          >
+            <div style={{ fontWeight: 500, fontSize: 13 }}>{t.name}</div>
+            <div style={{ fontSize: 11, color: C.textDim, marginTop: 2 }}>
+              {t.row_count != null && `${t.row_count.toLocaleString()} rows`}
+              {t.column_count != null && ` · ${t.column_count} cols`}
+              {t.size_mb != null && ` · ${t.size_mb} MB`}
+              {t.type && ` · ${t.type}`}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ─── Data Preview ───────────────────────────────────────────── */}
+      {preview && (
+        <div style={{ padding: "0 22px 22px" }}>
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              color: C.textMuted,
+              marginBottom: 8,
+              letterSpacing: 0.8,
+            }}
+          >
+            PREVIEW ({preview.preview_rows} of {preview.total_rows?.toLocaleString()} rows)
+          </div>
+
+          {preview.error ? (
+            <div style={{ color: C.red, fontSize: 13 }}>{preview.error}</div>
+          ) : (
+            <div style={{ overflow: "auto", borderRadius: 8, border: `1px solid ${C.border}` }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                <thead>
+                  <tr>
+                    {preview.columns?.map((col) => (
+                      <th
+                        key={col}
+                        style={{
+                          padding: "7px 10px",
+                          textAlign: "left",
+                          fontWeight: 600,
+                          background: C.bgAlt,
+                          borderBottom: `1px solid ${C.border}`,
+                          whiteSpace: "nowrap",
+                          color: C.textDim,
+                          fontSize: 11,
+                        }}
+                      >
+                        {col}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {preview.rows?.map((row, i) => (
+                    <tr key={i}>
+                      {row.map((cell, j) => (
+                        <td
+                          key={j}
+                          style={{
+                            padding: "5px 10px",
+                            borderBottom: `1px solid ${C.border}`,
+                            whiteSpace: "nowrap",
+                            maxWidth: 180,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {cell == null ? (
+                            <span style={{ color: C.textMuted }}>null</span>
+                          ) : (
+                            String(cell)
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ─── SQL Query Console ──────────────────────────────────────── */}
+      <div style={{ padding: "0 22px 22px" }}>
+        <div
+          style={{
+            fontSize: 11,
+            fontWeight: 600,
+            color: C.textMuted,
+            marginBottom: 8,
+            letterSpacing: 0.8,
+          }}
+        >
+          SQL QUERY
+        </div>
+
+        {/* SQL textarea */}
+        <textarea
+          value={querySQL}
+          onChange={(e) => setQuerySQL(e.target.value)}
+          placeholder="SELECT * FROM table_name LIMIT 10"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+              runQuery();
+            }
+          }}
+          style={{
+            width: "100%",
+            minHeight: 64,
+            fontFamily: "monospace",
+            fontSize: 13,
+            resize: "vertical",
+            marginBottom: 8,
+          }}
+        />
+
+        {/* Run button and shortcut hint */}
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <Btn small primary onClick={runQuery} disabled={queryLoading}>
+            {queryLoading ? "Running..." : "Run Query"}
+          </Btn>
+          <span style={{ fontSize: 11, color: C.textMuted }}>⌘+Enter to run</span>
+        </div>
+
+        {/* Query results */}
+        {queryResult && (
+          <div style={{ marginTop: 12 }}>
+            {queryResult.error ? (
+              <div
+                style={{
+                  color: C.red,
+                  fontSize: 13,
+                  padding: 10,
+                  background: C.redBg,
+                  borderRadius: 8,
+                }}
+              >
+                {queryResult.error}
+              </div>
+            ) : (
+              <div
+                style={{
+                  overflow: "auto",
+                  borderRadius: 8,
+                  border: `1px solid ${C.border}`,
+                  maxHeight: 300,
+                }}
+              >
+                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                  <thead>
+                    <tr>
+                      {queryResult.columns?.map((c) => (
+                        <th
+                          key={c}
+                          style={{
+                            padding: "6px 10px",
+                            textAlign: "left",
+                            fontWeight: 600,
+                            background: C.bgAlt,
+                            borderBottom: `1px solid ${C.border}`,
+                            whiteSpace: "nowrap",
+                            color: C.textDim,
+                            fontSize: 11,
+                            position: "sticky",
+                            top: 0,
+                          }}
+                        >
+                          {c}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {queryResult.rows?.map((row, i) => (
+                      <tr key={i}>
+                        {row.map((cell, j) => (
+                          <td
+                            key={j}
+                            style={{
+                              padding: "4px 10px",
+                              borderBottom: `1px solid ${C.border}`,
+                              whiteSpace: "nowrap",
+                              maxWidth: 180,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            {cell == null ? (
+                              <span style={{ color: C.textMuted }}>null</span>
+                            ) : (
+                              String(cell)
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div
+                  style={{
+                    padding: "6px 10px",
+                    fontSize: 11,
+                    color: C.textDim,
+                    borderTop: `1px solid ${C.border}`,
+                    background: C.bgAlt,
+                  }}
+                >
+                  {queryResult.row_count} row
+                  {queryResult.row_count !== 1 ? "s" : ""}
+                  {queryResult.truncated ? " (truncated)" : ""}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+    // ─── MCPConfigPanel.jsx ──────────────────────────────────────────
+/**
+ * MCPConfigPanel component - modal for MCP configuration and installation.
+ *
+ * Displays MCP configuration in JSON format for different clients and transport modes.
+ * Supports:
+ * - Client format: Claude Desktop or Generic MCP client
+ * - Transport mode: stdio (local) or SSE (network)
+ *
+ * Users can copy the config or install directly to their system (Claude Desktop only).
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.onClose - Callback to close modal
+ * @returns {JSX.Element} Modal dialog
+ */
+
+
+
+
+
+
+function MCPConfigPanel({ onClose }) {
+  const [config, setConfig] = useState(null);
+  const [format, setFormat] = useState("claude");
+  const [transport, setTransport] = useState("stdio");
+  const [installResult, setInstallResult] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  // Fetch config whenever format or transport changes
+  useEffect(() => {
+    fetchMCPConfig(format, transport).then(setConfig);
+  }, [format, transport]);
+
+  /**
+   * Copy config JSON to clipboard.
+   */
+  const handleCopy = () => {
+    navigator.clipboard.writeText(JSON.stringify(config, null, 2));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  /**
+   * Install config to Claude Desktop config file.
+   */
+  const handleInstall = () => {
+    installMCPConfig(format, transport).then(setInstallResult);
+  };
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,.55)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 100,
+      }}
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: C.surface,
+          borderRadius: 16,
+          border: `1px solid ${C.border}`,
+          padding: 28,
+          width: 580,
+          maxHeight: "85vh",
+          overflow: "auto",
+          animation: "fadeIn 0.2s ease",
+        }}
+      >
+        <h2 style={{ fontSize: 19, fontWeight: 700, marginBottom: 6 }}>
+          MCP Configuration
+        </h2>
+        <p style={{ fontSize: 13, color: C.textDim, marginBottom: 18 }}>
+          Connect AI clients to your data sources through MCP.
+        </p>
+
+        {/* ─── Client Format Selector ─────────────────────────────────── */}
+        <div
+          style={{
+            fontSize: 11,
+            fontWeight: 600,
+            color: C.textMuted,
+            marginBottom: 6,
+            letterSpacing: 0.8,
+          }}
+        >
+          CLIENT FORMAT
+        </div>
+        <div style={{ display: "flex", gap: 6, marginBottom: 14 }}>
+          {["claude", "generic"].map((f) => (
+            <button
+              key={f}
+              onClick={() => {
+                setFormat(f);
+                setInstallResult(null);
+              }}
+              style={{
+                padding: "8px 14px",
+                borderRadius: 8,
+                fontSize: 13,
+                background: format === f ? C.accentBg : C.bgAlt,
+                border: `1px solid ${format === f ? C.accent : C.border}`,
+                color: format === f ? C.accentHover : C.textDim,
+                fontWeight: format === f ? 600 : 400,
+              }}
+            >
+              {f === "claude" ? "Claude Desktop" : "Generic"}
+            </button>
+          ))}
+        </div>
+
+        {/* ─── Transport Mode Selector ────────────────────────────────── */}
+        <div
+          style={{
+            fontSize: 11,
+            fontWeight: 600,
+            color: C.textMuted,
+            marginBottom: 6,
+            letterSpacing: 0.8,
+          }}
+        >
+          TRANSPORT MODE
+        </div>
+        <div style={{ display: "flex", gap: 6, marginBottom: 6 }}>
+          {[
+            {
+              id: "stdio",
+              label: "stdio (local)",
+              desc: "AI launches the bridge as a child process",
+            },
+            {
+              id: "sse",
+              label: "SSE (network)",
+              desc: "Bridge runs as an HTTP server — supports remote access",
+            },
+          ].map((t) => (
+            <button
+              key={t.id}
+              onClick={() => {
+                setTransport(t.id);
+                setInstallResult(null);
+              }}
+              style={{
+                padding: "8px 14px",
+                borderRadius: 8,
+                fontSize: 13,
+                background: transport === t.id ? C.accentBg : C.bgAlt,
+                border: `1px solid ${transport === t.id ? C.accent : C.border}`,
+                color: transport === t.id ? C.accentHover : C.textDim,
+                fontWeight: transport === t.id ? 600 : 400,
+              }}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Transport mode description */}
+        <div style={{ fontSize: 12, color: C.textMuted, marginBottom: 14 }}>
+          {transport === "stdio"
+            ? "Best for local setups — Claude launches the bridge automatically."
+            : "Best for remote or multi-client setups — run the bridge separately with: python mcp_bridge.py --transport sse"}
+        </div>
+
+        {/* ─── Config JSON Display ────────────────────────────────────── */}
+        <pre
+          style={{
+            background: C.bgAlt,
+            borderRadius: 10,
+            padding: 14,
+            fontSize: 12,
+            lineHeight: 1.6,
+            overflow: "auto",
+            maxHeight: 280,
+            border: `1px solid ${C.border}`,
+            fontFamily: "monospace",
+          }}
+        >
+          {config ? JSON.stringify(config, null, 2) : "Loading..."}
+        </pre>
+
+        {/* ─── Footer with Actions ────────────────────────────────────── */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: 14,
+          }}
+        >
+          <div>
+            {installResult && (
+              <span
+                style={{
+                  fontSize: 12,
+                  color: installResult.installed ? C.green : C.red,
+                }}
+              >
+                {installResult.installed
+                  ? `Installed to ${installResult.path}`
+                  : installResult.error}
+              </span>
+            )}
+          </div>
+
+          <div style={{ display: "flex", gap: 8 }}>
+            <Btn onClick={handleCopy}>
+              {copied ? "Copied!" : "Copy"}
+            </Btn>
+            {format === "claude" && (
+              <Btn primary onClick={handleInstall}>
+                Install
+              </Btn>
+            )}
+            <Btn onClick={onClose}>Close</Btn>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+    // ─── ImportExportPanel.jsx ──────────────────────────────────────────
+/**
+ * ImportExportPanel component - modal for importing/exporting source configurations.
+ *
+ * Export: Download all sources as a JSON file for backup or migration.
+ * Import: Paste previously exported JSON to import sources into this instance.
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.onClose - Callback to close modal
+ * @param {Function} props.onRefresh - Callback to refresh source list after import
+ * @returns {JSX.Element} Modal dialog with tabbed interface
+ */
+
+
+
+
+
+
+
+function ImportExportPanel({ onClose, onRefresh }) {
+  const [exportData, setExportData] = useState(null);
+  const [importText, setImportText] = useState("");
+  const [importResult, setImportResult] = useState(null);
+  const [tab, setTab] = useState("export");
+
+  // Fetch export data when panel opens
+  useEffect(() => {
+    exportSources().then(setExportData);
+  }, []);
+
+  /**
+   * Handle import form submission.
+   * Validates JSON and imports sources.
+   */
+  const handleImport = () => {
+    try {
+      const data = JSON.parse(importText);
+      const sources = data.sources || data;
+
+      importSources(Array.isArray(sources) ? sources : [sources])
+        .then((d) => {
+          setImportResult(d);
+          onRefresh();
+        });
+    } catch {
+      setImportResult({ error: "Invalid JSON" });
+    }
+  };
+
+  /**
+   * Download export data as JSON file.
+   */
+  const downloadJSON = () => {
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: "application/json",
+    });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "mcp-sources.json";
+    a.click();
+  };
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,.55)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 100,
+      }}
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: C.surface,
+          borderRadius: 16,
+          border: `1px solid ${C.border}`,
+          padding: 28,
+          width: 580,
+          maxHeight: "85vh",
+          overflow: "auto",
+          animation: "fadeIn 0.2s ease",
+        }}
+      >
+        <h2 style={{ fontSize: 19, fontWeight: 700, marginBottom: 16 }}>
+          Import / Export
+        </h2>
+
+        {/* Tab navigation */}
+        <TabBar
+          tabs={[
+            { id: "export", label: "Export" },
+            { id: "import", label: "Import" },
+          ]}
+          active={tab}
+          onChange={setTab}
+        />
+
+        {/* ─── Export Tab ─────────────────────────────────────────────── */}
+        {tab === "export" ? (
+          <div style={{ marginTop: 16 }}>
+            <p style={{ fontSize: 13, color: C.textDim, marginBottom: 10 }}>
+              Download your source configurations for backup or migration.
+            </p>
+
+            {/* Config preview */}
+            <pre
+              style={{
+                background: C.bgAlt,
+                borderRadius: 10,
+                padding: 14,
+                fontSize: 12,
+                lineHeight: 1.5,
+                overflow: "auto",
+                maxHeight: 300,
+                border: `1px solid ${C.border}`,
+                fontFamily: "monospace",
+              }}
+            >
+              {exportData ? JSON.stringify(exportData, null, 2) : "Loading..."}
+            </pre>
+
+            {/* Download button */}
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 12 }}>
+              <Btn onClick={downloadJSON}>Download JSON</Btn>
+              <Btn onClick={onClose}>Close</Btn>
+            </div>
+          </div>
+        ) : (
+          /* ─── Import Tab ─────────────────────────────────────────── */
+          <div style={{ marginTop: 16 }}>
+            <p style={{ fontSize: 13, color: C.textDim, marginBottom: 10 }}>
+              Paste exported JSON to import source configurations.
+            </p>
+
+            {/* Import textarea */}
+            <textarea
+              value={importText}
+              onChange={(e) => setImportText(e.target.value)}
+              placeholder="Paste JSON here..."
+              style={{
+                width: "100%",
+                minHeight: 140,
+                fontFamily: "monospace",
+                fontSize: 12,
+                marginBottom: 10,
+              }}
+            />
+
+            {/* Import result message */}
+            {importResult && (
+              <div
+                style={{
+                  fontSize: 13,
+                  color: importResult.error ? C.red : C.green,
+                  marginBottom: 10,
+                }}
+              >
+                {importResult.error ||
+                  `Imported ${importResult.imported}, skipped ${importResult.skipped}`}
+              </div>
+            )}
+
+            {/* Action buttons */}
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+              <Btn onClick={onClose}>Close</Btn>
+              <Btn primary onClick={handleImport}>
+                Import
+              </Btn>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+    // ─── LogPanel.jsx ──────────────────────────────────────────
+/**
+ * LogPanel component - modal for viewing server request logs.
+ *
+ * Displays recent API requests with timestamps, HTTP status, method, path, and elapsed time.
+ * Supports filtering by log level (all, success, errors).
+ * Auto-refreshes every 5 seconds and auto-scrolls to latest logs.
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.onClose - Callback to close modal
+ * @returns {JSX.Element} Modal dialog
+ */
+
+
+
+
+
+
+
+function LogPanel({ onClose }) {
+  const [logs, setLogs] = useState([]);
+  const [filter, setFilter] = useState("all");
+  const bottomRef = useRef(null);
+
+  /**
+   * Load logs from the server.
+   */
+  const loadLogs = () =>
+    fetchLogs(200, filter).then((d) => setLogs(d.logs || []));
+
+  // Initial load and set up auto-refresh
+  useEffect(() => {
+    loadLogs();
+    const i = setInterval(loadLogs, 5000);
+    return () => clearInterval(i);
+  }, [filter]);
+
+  // Auto-scroll to bottom when new logs arrive
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [logs.length]);
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,.55)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 100,
+      }}
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: C.surface,
+          borderRadius: 16,
+          border: `1px solid ${C.border}`,
+          padding: 28,
+          width: 700,
+          maxHeight: "85vh",
+          overflow: "auto",
+          animation: "fadeIn 0.2s ease",
+        }}
+      >
+        {/* Header with filter tabs */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 16,
+          }}
+        >
+          <h2 style={{ fontSize: 19, fontWeight: 700 }}>Request Logs</h2>
+          <TabBar
+            tabs={[
+              { id: "all", label: "All" },
+              { id: "success", label: "OK" },
+              { id: "error", label: "Errors" },
+            ]}
+            active={filter}
+            onChange={setFilter}
+          />
+        </div>
+
+        {/* Log entries */}
+        <div
+          style={{
+            background: C.bgAlt,
+            borderRadius: 10,
+            border: `1px solid ${C.border}`,
+            maxHeight: 400,
+            overflow: "auto",
+            fontFamily: "monospace",
+            fontSize: 12,
+            lineHeight: 1.8,
+          }}
+        >
+          {logs.length === 0 ? (
+            <div
+              style={{
+                padding: 20,
+                textAlign: "center",
+                color: C.textMuted,
+              }}
+            >
+              No logs yet
+            </div>
+          ) : (
+            logs.map((l, i) => (
+              <div
+                key={i}
+                style={{
+                  padding: "4px 12px",
+                  borderBottom: `1px solid ${C.border}`,
+                  display: "flex",
+                  gap: 12,
+                }}
+              >
+                {/* Timestamp */}
+                <span
+                  style={{
+                    color: C.textMuted,
+                    minWidth: 170,
+                  }}
+                >
+                  {new Date(l.timestamp).toLocaleTimeString()}
+                </span>
+
+                {/* HTTP Status code */}
+                <span
+                  style={{
+                    color: l.status < 400 ? C.green : C.red,
+                    minWidth: 36,
+                  }}
+                >
+                  {l.status}
+                </span>
+
+                {/* HTTP Method */}
+                <span
+                  style={{
+                    color: C.blue,
+                    minWidth: 40,
+                  }}
+                >
+                  {l.method}
+                </span>
+
+                {/* Request path */}
+                <span
+                  style={{
+                    color: C.text,
+                    flex: 1,
+                  }}
+                >
+                  {l.path}
+                </span>
+
+                {/* Elapsed time */}
+                <span style={{ color: C.textMuted }}>{l.elapsed_ms}ms</span>
+              </div>
+            ))
+          )}
+          <div ref={bottomRef} />
+        </div>
+
+        {/* Close button */}
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
+          <Btn onClick={onClose}>Close</Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+    // ─── SettingsPanel.jsx ──────────────────────────────────────────
+/**
+ * SettingsPanel component - modal for system settings, installation check,
+ * and authentication.
+ *
+ * Displays:
+ * - System information (version, platform, Python version, headless mode)
+ * - Installation check (server, service, AI clients, data sources)
+ * - API authentication toggle and key display
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.onClose - Callback to close modal
+ * @returns {JSX.Element} Modal dialog
+ */
+
+
+
+
+
+
+function SettingsPanel({ onClose }) {
+  const [authEnabled, setAuthEnabled] = useState(false);
+  const [apiKey, setApiKey] = useState("");
+  const [info, setInfo] = useState(null);
+  const [msg, setMsg] = useState("");
+  const [checks, setChecks] = useState(null);
+  const [checkLoading, setCheckLoading] = useState(false);
+  const [summary, setSummary] = useState(null);
+
+  // Load auth status and system info on mount
+  useEffect(() => {
+    fetchAuthStatus().then((d) => setAuthEnabled(d.enabled));
+    fetchSystemInfo().then(setInfo);
+  }, []);
+
+  /**
+   * Toggle API authentication on/off.
+   */
+  const toggleAuth = () => {
+    const enabling = !authEnabled;
+    configureAuth(enabling).then((d) => {
+      setAuthEnabled(d.enabled);
+      if (d.api_key) {
+        setApiKey(d.api_key);
+      }
+      setMsg(d.message);
+    });
+  };
+
+  /**
+   * Run full system installation check.
+   */
+  const runSystemCheck = () => {
+    setCheckLoading(true);
+    fetchSystemCheck()
+      .then((d) => {
+        setChecks(d.checks);
+        setSummary(d.summary);
+        setCheckLoading(false);
+      })
+      .catch(() => setCheckLoading(false));
+  };
+
+  const statusIcon = (s) =>
+    s === "pass" ? "\u2705" : s === "fail" ? "\u274C" : s === "warn" ? "\u26A0\uFE0F" : "\u23ED\uFE0F";
+  const statusColor = (s) =>
+    s === "pass" ? C.green : s === "fail" ? C.red : s === "warn" ? C.amber : C.textMuted;
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,.55)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 100,
+      }}
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: C.surface,
+          borderRadius: 16,
+          border: `1px solid ${C.border}`,
+          padding: 28,
+          width: 560,
+          maxHeight: "85vh",
+          overflowY: "auto",
+          animation: "fadeIn 0.2s ease",
+        }}
+      >
+        <h2 style={{ fontSize: 19, fontWeight: 700, marginBottom: 18 }}>
+          Settings
+        </h2>
+
+        {/* ─── System Info Section ────────────────────────────────────── */}
+        {info && (
+          <div
+            style={{
+              padding: 14,
+              background: C.bgAlt,
+              borderRadius: 10,
+              marginBottom: 16,
+              fontSize: 13,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                color: C.textMuted,
+                marginBottom: 8,
+                letterSpacing: 0.8,
+              }}
+            >
+              SYSTEM INFO
+            </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "auto 1fr",
+                gap: "4px 16px",
+              }}
+            >
+              <span style={{ color: C.textDim }}>Version</span>
+              <span>{info.version}</span>
+
+              <span style={{ color: C.textDim }}>Platform</span>
+              <span>{info.platform}</span>
+
+              <span style={{ color: C.textDim }}>Python</span>
+              <span>{info.python}</span>
+
+              <span style={{ color: C.textDim }}>Mode</span>
+              <span>{info.headless ? "Headless (service)" : "Interactive"}</span>
+            </div>
+          </div>
+        )}
+
+        {/* ─── Installation Check Section ─────────────────────────────── */}
+        <div
+          style={{
+            padding: 14,
+            background: C.bgAlt,
+            borderRadius: 10,
+            marginBottom: 16,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 10,
+            }}
+          >
+            <div
+              style={{
+                fontSize: 11,
+                fontWeight: 600,
+                color: C.textMuted,
+                letterSpacing: 0.8,
+              }}
+            >
+              INSTALLATION CHECK
+            </div>
+            <button
+              onClick={runSystemCheck}
+              disabled={checkLoading}
+              style={{
+                background: C.accent,
+                color: C.accentContrast,
+                border: "none",
+                borderRadius: 8,
+                padding: "6px 14px",
+                fontSize: 12,
+                fontWeight: 600,
+                opacity: checkLoading ? 0.6 : 1,
+                cursor: checkLoading ? "wait" : "pointer",
+              }}
+            >
+              {checkLoading ? "Checking..." : "Run System Check"}
+            </button>
+          </div>
+
+          {!checks && !checkLoading && (
+            <div style={{ fontSize: 13, color: C.textDim }}>
+              Verifies server, background service, AI client registrations, and data
+              sources.
+            </div>
+          )}
+
+          {checks && (
+            <div>
+              {summary && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    marginBottom: 12,
+                    padding: "8px 12px",
+                    borderRadius: 8,
+                    fontSize: 13,
+                    fontWeight: 600,
+                    background: summary.all_pass ? C.greenBg : C.amberBg,
+                    color: summary.all_pass ? C.green : C.amber,
+                  }}
+                >
+                  {summary.all_pass
+                    ? "\u2705 All checks passed"
+                    : `\u26A0\uFE0F ${summary.passed} of ${summary.total} checks passed`}
+                </div>
+              )}
+
+              {checks.map((c, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 10,
+                    padding: "6px 0",
+                    borderBottom:
+                      i < checks.length - 1
+                        ? `1px solid ${C.border}`
+                        : "none",
+                  }}
+                >
+                  <span
+                    style={{ fontSize: 14, lineHeight: "20px", flexShrink: 0 }}
+                  >
+                    {statusIcon(c.status)}
+                  </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      style={{
+                        fontSize: 13,
+                        fontWeight: 600,
+                        color: statusColor(c.status),
+                      }}
+                    >
+                      {c.name}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: C.textDim,
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {c.detail}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* ─── API Authentication Section ─────────────────────────────── */}
+        <div
+          style={{
+            padding: 14,
+            background: C.bgAlt,
+            borderRadius: 10,
+            marginBottom: 16,
+          }}
+        >
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              color: C.textMuted,
+              marginBottom: 10,
+              letterSpacing: 0.8,
+            }}
+          >
+            API AUTHENTICATION
+          </div>
+
+          {/* Auth toggle */}
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              fontSize: 14,
+              cursor: "pointer",
+              marginBottom: 8,
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={authEnabled}
+              onChange={toggleAuth}
+            />
+            Require API key for requests
+          </label>
+
+          {/* Display API key after generation */}
+          {apiKey && (
+            <div style={{ marginTop: 8 }}>
+              <div
+                style={{
+                  fontSize: 12,
+                  color: C.textDim,
+                  marginBottom: 4,
+                }}
+              >
+                Your API key (save this — it won't be shown again):
+              </div>
+              <div
+                style={{
+                  fontFamily: "monospace",
+                  fontSize: 13,
+                  padding: 10,
+                  background: C.bg,
+                  borderRadius: 8,
+                  border: `1px solid ${C.border}`,
+                  wordBreak: "break-all",
+                }}
+              >
+                {apiKey}
+              </div>
+            </div>
+          )}
+
+          {/* Success message */}
+          {msg && (
+            <div
+              style={{
+                fontSize: 12,
+                color: C.green,
+                marginTop: 8,
+              }}
+            >
+              {msg}
+            </div>
+          )}
+        </div>
+
+        {/* Close button */}
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Btn onClick={onClose}>Close</Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+    // ─── App.jsx ──────────────────────────────────────────
+/**
+ * App component - main application root.
+ *
+ * Orchestrates the entire Selran Hub:
+ * - Manages global state (sources, statistics, UI visibility)
+ * - Handles data fetching and refreshing
+ * - Composes all child components (panels, modals, list views)
+ * - Provides filtering and search across data sources
+ *
+ * This is the entry point for the application.
+ */
+
+
+
+// (removed a stray `import { ... } from "./api"` — these helpers are defined
+// inline above; the import re-declared them and broke the bundle)
+
+// Component imports
+
+
+
+
+
+
+
+
+
+
+
+
+// Configuration
+const POLL_INTERVAL = 45000; // 45 seconds between background refreshes
+
+/**
+ * Main App component - dashboard root.
+ */
+function App() {
+  // Data state
+  const [sources, setSources] = useState([]);
+  const [stats, setStats] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  // UI state - detail panel
+  const [selected, setSelected] = useState(null);
+
+  // UI state - modals
+  const [showAdd, setShowAdd] = useState(false);
+  const [showEdit, setShowEdit] = useState(null);
+  const [showConfig, setShowConfig] = useState(false);
+  const [showImport, setShowImport] = useState(false);
+  const [showLogs, setShowLogs] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+
+  // UI state - filtering
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
+
+  /**
+   * Refresh sources and statistics from the backend.
+   * Used on initial load, after mutations, and on interval.
+   */
+  const refresh = useCallback(() => {
+    fetchSources()
+      .then((d) => {
+        setSources(d);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+
+    fetchStats().then(setStats);
+  }, []);
+
+  /**
+   * Set up initial load and auto-refresh interval.
+   */
+  useEffect(() => {
+    refresh();
+    const interval = setInterval(refresh, POLL_INTERVAL);
+    return () => clearInterval(interval);
+  }, [refresh]);
+
+  /**
+   * Handle adding a new source.
+   */
+  const handleAddSource = (formData) => {
+    createSource(formData).then(() => {
+      setShowAdd(false);
+      refresh();
+    });
+  };
+
+  /**
+   * Handle editing an existing source.
+   */
+  const handleEditSource = (formData, sourceId) => {
+    updateSource(sourceId, formData).then(() => {
+      setShowEdit(null);
+      refresh();
+    });
+  };
+
+  /**
+   * Handle deleting a source with confirmation.
+   */
+  const handleDeleteSource = (sourceId) => {
+    if (!confirm("Remove this data source?")) return;
+
+    deleteSource(sourceId).then(() => {
+      if (selected?.id === sourceId) {
+        setSelected(null);
+      }
+      refresh();
+    });
+  };
+
+  /**
+   * Filter sources based on type filter and search query.
+   */
+  const filtered = sources.filter((s) => {
+    // Type filter
+    if (typeFilter !== "all" && s.type !== typeFilter) {
+      return false;
+    }
+
+    // Search filter - check name, path, url, and description
+    if (search) {
+      const q = search.toLowerCase();
+      return (
+        s.name.toLowerCase().includes(q) ||
+        (s.path || "").toLowerCase().includes(q) ||
+        (s.url || "").toLowerCase().includes(q) ||
+        (s.description || "").toLowerCase().includes(q)
+      );
+    }
+
+    return true;
+  });
+
+  /**
+   * Count sources by type for tab labels.
+   */
+  const typeCounts = { all: sources.length };
+  sources.forEach((s) => {
+    typeCounts[s.type] = (typeCounts[s.type] || 0) + 1;
+  });
+
+  return (
+    <>
+      {/* Global styles */}
+      <style>{css}</style>
+
+      {/* Main layout */}
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 24px" }}>
+        {/* Header */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 28,
+          }}
+        >
+          {/* Title */}
+          <div>
+            <h1 style={{ fontSize: 26, fontWeight: 800, letterSpacing: -0.5 }}>
+              Data Sources
+            </h1>
+            <p style={{ fontSize: 13, color: C.textDim, marginTop: 3 }}>
+              Connect folders, databases & APIs so Claude can read them
+            </p>
+          </div>
+
+          {/* Action buttons */}
+          <div style={{ display: "flex", gap: 8 }}>
+            <Btn small onClick={() => setShowLogs(true)}>
+              📋 Logs
+            </Btn>
+            <Btn small onClick={() => setShowImport(true)}>
+              ↕ Import/Export
+            </Btn>
+            <Btn small onClick={() => setShowSettings(true)}>
+              ⚙ Settings
+            </Btn>
+            <Btn small onClick={() => setShowConfig(true)}>
+              🔌 MCP Config
+            </Btn>
+            <Btn primary onClick={() => setShowAdd(true)}>
+              + Add Source
+            </Btn>
+          </div>
+        </div>
+
+        {/* Statistics Cards */}
+        <div
+          style={{
+            display: "flex",
+            gap: 14,
+            marginBottom: 24,
+            flexWrap: "wrap",
+          }}
+        >
+          <StatCard
+            label="Total Sources"
+            value={stats.total || 0}
+            icon="📊"
+            sub={
+              stats.types
+                ? Object.entries(stats.types)
+                    .map(([k, v]) => `${v} ${k}`)
+                    .join(", ")
+                : null
+            }
+          />
+          <StatCard
+            label="Online"
+            value={stats.online || 0}
+            color={C.green}
+            icon="✅"
+          />
+          <StatCard
+            label="Offline"
+            value={stats.offline || 0}
+            color={C.textMuted}
+            icon="⏸️"
+          />
+          <StatCard
+            label="Errors"
+            value={stats.error || 0}
+            color={stats.error > 0 ? C.red : C.textMuted}
+            icon={stats.error > 0 ? "⚠️" : "✔️"}
+          />
+        </div>
+
+        {/* Source List Container */}
+        <div
+          style={{
+            background: C.surface,
+            borderRadius: 14,
+            border: `1px solid ${C.border}`,
+            overflow: "hidden",
+          }}
+        >
+          {/* Filter and search bar */}
+          <div
+            style={{
+              padding: "12px 18px",
+              borderBottom: `1px solid ${C.border}`,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 12,
+              flexWrap: "wrap",
+            }}
+          >
+            {/* Type filter tabs */}
+            <TabBar
+              tabs={[
+                { id: "all", label: "All", count: typeCounts.all },
+                ...["folder", "duckdb", "sqlite", "api"]
+                  .filter((t) => typeCounts[t])
+                  .map((t) => ({
+                    id: t,
+                    label:
+                      t === "folder"
+                        ? "Folder"
+                        : t === "duckdb"
+                        ? "DuckDB"
+                        : t === "sqlite"
+                        ? "SQLite"
+                        : "REST API",
+                    count: typeCounts[t],
+                  })),
+              ]}
+              active={typeFilter}
+              onChange={setTypeFilter}
+            />
+
+            {/* Search and refresh */}
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <SearchInput
+                value={search}
+                onChange={setSearch}
+                placeholder="Search sources..."
+              />
+              <SmallBtn onClick={refresh} title="Refresh">
+                ↻
+              </SmallBtn>
+            </div>
+          </div>
+
+          {/* Source list or empty state */}
+          {loading ? (
+            <div style={{ padding: 40, textAlign: "center", color: C.textMuted }}>
+              Loading sources...
+            </div>
+          ) : filtered.length === 0 ? (
+            <div style={{ padding: 50, textAlign: "center" }}>
+              <div style={{ fontSize: 44, marginBottom: 10 }}>
+                {search || typeFilter !== "all" ? "🔍" : "📂"}
+              </div>
+              <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 4 }}>
+                {search || typeFilter !== "all"
+                  ? "No matching sources"
+                  : "No data sources yet"}
+              </div>
+              <div style={{ fontSize: 13, color: C.textDim, marginBottom: 18 }}>
+                {search || typeFilter !== "all"
+                  ? "Try a different filter"
+                  : "Connect a folder, database, or API to get started"}
+              </div>
+              {!search && typeFilter === "all" && (
+                <Btn primary onClick={() => setShowAdd(true)}>
+                  + Add Your First Source
+                </Btn>
+              )}
+            </div>
+          ) : (
+            /* Source rows */
+            filtered.map((s) => (
+              <SourceRow
+                key={s.id}
+                source={s}
+                onSelect={setSelected}
+                onToggle={toggleSource}
+                onCheck={checkSource}
+                onDelete={handleDeleteSource}
+                onEdit={(source) => setShowEdit(source)}
+              />
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* Panels and Modals */}
+      {selected && (
+        <SourceDetail source={selected} onClose={() => setSelected(null)} />
+      )}
+      {showAdd && (
+        <SourceModal
+          onClose={() => setShowAdd(false)}
+          onSubmit={handleAddSource}
+        />
+      )}
+      {showEdit && (
+        <SourceModal
+          onClose={() => setShowEdit(null)}
+          onSubmit={handleEditSource}
+          editing={showEdit}
+        />
+      )}
+      {showConfig && <MCPConfigPanel onClose={() => setShowConfig(false)} />}
+      {showImport && (
+        <ImportExportPanel
+          onClose={() => setShowImport(false)}
+          onRefresh={refresh}
+        />
+      )}
+      {showLogs && <LogPanel onClose={() => setShowLogs(false)} />}
+      {showSettings && <SettingsPanel onClose={() => setShowSettings(false)} />}
+    </>
+  );
+}
+
+
+    // ─── Render Root ──────────────────────────────────────────────────────────
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

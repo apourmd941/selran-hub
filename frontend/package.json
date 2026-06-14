@@ -1,0 +1,11 @@
+{
+  "name": "mcp-server-dashboard",
+  "version": "2.0.0",
+  "private": true,
+  "description": "MCP Server Dashboard — React frontend",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "build": "node build.js"
+  },
+  "devDependencies": {}
+}

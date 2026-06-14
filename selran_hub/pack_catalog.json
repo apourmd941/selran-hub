@@ -1,0 +1,401 @@
+{
+  "catalog_version": "2026-06-10",
+  "vendor": "Selran \u2014 Aidin Eslampour",
+  "purchase_base_url": "https://selran.com/packs/",
+  "packs": [
+    {
+      "id": "pack-academic",
+      "name": "Academic",
+      "product": "pack-academic",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "editorial",
+        "feel": "Serif display \u00b7 magazine hierarchy",
+        "accent": "#1B2F4A",
+        "swatches": [
+          "#FAF7F0",
+          "#1B2F4A",
+          "#1A1812"
+        ]
+      }
+    },
+    {
+      "id": "pack-activist",
+      "name": "Activist",
+      "product": "pack-activist",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "brutalist",
+        "feel": "Heavy grotesk/mono \u00b7 raw, loud",
+        "accent": "#D4261C",
+        "swatches": [
+          "#FAFAFA",
+          "#D4261C",
+          "#0A0A0A"
+        ]
+      }
+    },
+    {
+      "id": "pack-challenger",
+      "name": "Challenger",
+      "product": "pack-challenger",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "brutalist",
+        "feel": "Heavy grotesk/mono \u00b7 raw, loud",
+        "accent": "#FF5722",
+        "swatches": [
+          "#FAFAFA",
+          "#FF5722",
+          "#0A0A0A"
+        ]
+      }
+    },
+    {
+      "id": "pack-developer-tools",
+      "name": "Developer Tools",
+      "product": "pack-developer-tools",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "technical-minimal",
+        "feel": "Clean geometric sans \u00b7 dense, calm",
+        "accent": "#2456A6",
+        "swatches": [
+          "#2456A6"
+        ]
+      }
+    },
+    {
+      "id": "pack-e-commerce",
+      "name": "E Commerce",
+      "product": "pack-e-commerce",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "editorial",
+        "feel": "Serif display \u00b7 magazine hierarchy",
+        "accent": "#7A2E1F",
+        "swatches": [
+          "#F7F2E9",
+          "#7A2E1F",
+          "#1C1613"
+        ]
+      }
+    },
+    {
+      "id": "pack-edtech",
+      "name": "Edtech",
+      "product": "pack-edtech",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "warm-approachable",
+        "feel": "Friendly rounded sans",
+        "accent": "#4A6B3A",
+        "swatches": [
+          "#FDF9F2",
+          "#4A6B3A",
+          "#2A2520"
+        ]
+      }
+    },
+    {
+      "id": "pack-fintech",
+      "name": "Fintech",
+      "product": "pack-fintech",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "technical-minimal",
+        "feel": "Clean geometric sans \u00b7 dense, calm",
+        "accent": "#0B4A8C",
+        "swatches": [
+          "#0B4A8C"
+        ]
+      }
+    },
+    {
+      "id": "pack-gov-civic",
+      "name": "Gov Civic",
+      "product": "pack-gov-civic",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "technical-minimal",
+        "feel": "Clean geometric sans \u00b7 dense, calm",
+        "accent": "#0B3D91",
+        "swatches": [
+          "#FFFFFF",
+          "#0B3D91",
+          "#121820"
+        ]
+      }
+    },
+    {
+      "id": "pack-healthcare",
+      "name": "Healthcare",
+      "product": "pack-healthcare",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "warm-approachable",
+        "feel": "Friendly rounded sans",
+        "accent": "#5B8FA8",
+        "swatches": [
+          "#FBF8F3",
+          "#5B8FA8",
+          "#2A3340"
+        ]
+      }
+    },
+    {
+      "id": "pack-heritage",
+      "name": "Heritage",
+      "product": "pack-heritage",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "editorial",
+        "feel": "Serif display \u00b7 magazine hierarchy",
+        "accent": "#6B2E28",
+        "swatches": [
+          "#F4EDE1",
+          "#6B2E28",
+          "#1F1812"
+        ]
+      }
+    },
+    {
+      "id": "pack-hospitable",
+      "name": "Hospitable",
+      "product": "pack-hospitable",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "warm-approachable",
+        "feel": "Friendly rounded sans",
+        "accent": "#A34A2F",
+        "swatches": [
+          "#FAF4EA",
+          "#A34A2F",
+          "#2B2520"
+        ]
+      }
+    },
+    {
+      "id": "pack-legal-tech",
+      "name": "Legal Tech",
+      "product": "pack-legal-tech",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "editorial",
+        "feel": "Serif display \u00b7 magazine hierarchy",
+        "accent": "#1F3A33",
+        "swatches": [
+          "#1F3A33",
+          "#1A1915"
+        ]
+      }
+    },
+    {
+      "id": "pack-luxury",
+      "name": "Luxury",
+      "product": "pack-luxury",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "dark-premium",
+        "feel": "Refined serif \u00b7 luxe restraint",
+        "accent": "#B69773",
+        "swatches": [
+          "#0E0D0B",
+          "#B69773",
+          "#6B2E28",
+          "#F2EBE0"
+        ]
+      }
+    },
+    {
+      "id": "pack-mission-driven",
+      "name": "Mission Driven",
+      "product": "pack-mission-driven",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "editorial",
+        "feel": "Serif display \u00b7 magazine hierarchy",
+        "accent": "#2E4A32",
+        "swatches": [
+          "#FAF7F2",
+          "#2E4A32",
+          "#1C1B18"
+        ]
+      }
+    },
+    {
+      "id": "pack-nonprofit",
+      "name": "Nonprofit",
+      "product": "pack-nonprofit",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "warm-approachable",
+        "feel": "Friendly rounded sans",
+        "accent": "#2F5738",
+        "swatches": [
+          "#FAF6F0",
+          "#2F5738",
+          "#1F1C18"
+        ]
+      }
+    },
+    {
+      "id": "pack-oss-project",
+      "name": "Oss Project",
+      "product": "pack-oss-project",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "technical-minimal",
+        "feel": "Clean geometric sans \u00b7 dense, calm",
+        "accent": "#111827",
+        "swatches": [
+          "#FAFAF9",
+          "#111827"
+        ]
+      }
+    },
+    {
+      "id": "pack-personal-blog",
+      "name": "Personal Blog",
+      "product": "pack-personal-blog",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "editorial",
+        "feel": "Serif display \u00b7 magazine hierarchy",
+        "accent": "#8B2E2B",
+        "swatches": [
+          "#FBF8F2",
+          "#8B2E2B",
+          "#1C1A17"
+        ]
+      }
+    },
+    {
+      "id": "pack-playful-consumer",
+      "name": "Playful Consumer",
+      "product": "pack-playful-consumer",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "vibrant-playful",
+        "feel": "Energetic, colorful",
+        "accent": "#E85D5D",
+        "swatches": [
+          "#7FA86B",
+          "#E85D5D",
+          "#F2B441",
+          "#1E2A4A",
+          "#F8F3E6"
+        ]
+      }
+    },
+    {
+      "id": "pack-quiet-professional",
+      "name": "Quiet Professional",
+      "product": "pack-quiet-professional",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "technical-minimal",
+        "feel": "Clean geometric sans \u00b7 dense, calm",
+        "accent": "#4A5568",
+        "swatches": [
+          "#FBFAF8",
+          "#4A5568",
+          "#1A1A1A"
+        ]
+      }
+    },
+    {
+      "id": "pack-real-estate",
+      "name": "Real Estate",
+      "product": "pack-real-estate",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "editorial",
+        "feel": "Serif display \u00b7 magazine hierarchy",
+        "accent": "#3F5A3D",
+        "swatches": [
+          "#F7F3ED",
+          "#3F5A3D",
+          "#2B2620"
+        ]
+      }
+    },
+    {
+      "id": "pack-resume-cv",
+      "name": "Resume Cv",
+      "product": "pack-resume-cv",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "editorial",
+        "feel": "Serif display \u00b7 magazine hierarchy",
+        "accent": "#1F3A5F",
+        "swatches": [
+          "#FFFFFF",
+          "#1F3A5F",
+          "#111111"
+        ]
+      }
+    },
+    {
+      "id": "pack-saas-b2b",
+      "name": "Saas B2B",
+      "product": "pack-saas-b2b",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "technical-minimal",
+        "feel": "Clean geometric sans \u00b7 dense, calm",
+        "accent": "#2456A6",
+        "swatches": [
+          "#2456A6"
+        ]
+      }
+    },
+    {
+      "id": "pack-sophisticated-casual",
+      "name": "Sophisticated Casual",
+      "product": "pack-sophisticated-casual",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "editorial",
+        "feel": "Serif display \u00b7 magazine hierarchy",
+        "accent": "#1F4E3F",
+        "swatches": [
+          "#FAF7F0",
+          "#1F4E3F",
+          "#1A1712"
+        ]
+      }
+    },
+    {
+      "id": "pack-tech-forward",
+      "name": "Tech Forward",
+      "product": "pack-tech-forward",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "technical-minimal",
+        "feel": "Clean geometric sans \u00b7 dense, calm",
+        "accent": "#0F62FE",
+        "swatches": [
+          "#FBFBFB",
+          "#0F62FE"
+        ]
+      }
+    },
+    {
+      "id": "pack-technical-educator",
+      "name": "Technical Educator",
+      "product": "pack-technical-educator",
+      "for": "selran-design-director",
+      "identity": {
+        "direction": "technical-minimal",
+        "feel": "Clean geometric sans \u00b7 dense, calm",
+        "accent": "#1D5E6B",
+        "swatches": [
+          "#FAFAF5",
+          "#1D5E6B",
+          "#1C1C1A"
+        ]
+      }
+    }
+  ]
+}

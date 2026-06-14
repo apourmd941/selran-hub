@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "selran-hub"
+version = "0.15.1"
+description = "Selran Hub — the single local runtime for the Selran ecosystem: data sources, port registry, service lifecycle, design studio, audit panel, MCP bridge."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Aidin Eslampour", email = "aidin.eslampour@selran.ai" }]
+keywords = ["selran", "mcp", "claude", "local-first", "developer-tools"]
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "pydantic>=2",
+    "duckdb>=0.10",
+    "mcp>=1.0",
+    "cryptography>=42",
+    "psutil>=5.9",
+    "keyring>=24",
+]
+
+[project.urls]
+Homepage = "https://github.com/apourmd941/selran-hub"
+Repository = "https://github.com/apourmd941/selran-hub"
+
+[project.scripts]
+selran-hub = "selran_hub.cli:main"
+
+[tool.setuptools]
+packages = ["selran_hub", "selran_hub.connectors"]
+
+[tool.setuptools.package-data]
+selran_hub = ["frontend/**/*", "pack_catalog.json"]

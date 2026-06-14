@@ -1,0 +1,31 @@
+{
+  "name": "selran-hub",
+  "owner": {
+    "name": "Aidin Eslampour",
+    "email": "aidin.eslampour@selran.ai",
+    "url": "https://github.com/apourmd941"
+  },
+  "description": "Selran Hub — the single local runtime for the Selran ecosystem. One daemon on 127.0.0.1:11999 exposing your connected folders, databases, and APIs to Claude as MCP data sources, with port/service registry, design studio, and audit panel. Local-first: no telemetry, no cloud backend.",
+  "plugins": [
+    {
+      "name": "selran-hub",
+      "source": "./",
+      "description": "Connect Claude to the local control room for the Selran ecosystem. Query your connected folders, databases, and APIs as MCP data sources, check connection health, and inspect schemas — all against the Hub daemon running privately on 127.0.0.1. Requires the free Selran Hub installed (pipx install git+https://github.com/apourmd941/selran-hub, or the signed macOS app). Local-first: no telemetry, no cloud backend.",
+      "author": {
+        "name": "Aidin Eslampour",
+        "url": "https://github.com/apourmd941"
+      },
+      "homepage": "https://github.com/apourmd941/selran-hub",
+      "license": "MIT",
+      "category": "development",
+      "keywords": [
+        "mcp",
+        "data-sources",
+        "local-first",
+        "sqlite",
+        "duckdb",
+        "selran"
+      ]
+    }
+  ]
+}

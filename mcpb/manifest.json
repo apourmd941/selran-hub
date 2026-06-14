@@ -1,0 +1,69 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/mcpb/main/dist/mcpb-manifest-latest.schema.json",
+  "manifest_version": "0.4",
+  "name": "selran-hub",
+  "display_name": "Selran Hub",
+  "version": "0.9.0",
+  "description": "Query your connected folders, databases, and APIs through the local Selran Hub.",
+  "long_description": "One-click bridge that connects Claude Desktop to the **Selran Hub** — a free, local-first daemon running privately on 127.0.0.1. Query your registered folders, DuckDB/SQLite databases, and REST APIs as read-only MCP data sources; inspect tables and schemas; and (in MCP-Apps-capable hosts) pick a design direction or browse your sources in an inline panel. Requires the Selran Hub installed and running separately (pipx install git+https://github.com/apourmd941/selran-hub, or the signed macOS app). Local-first: no telemetry, no cloud backend.",
+  "author": {
+    "name": "Aidin Eslampour",
+    "email": "aidin.eslampour@selran.ai",
+    "url": "https://github.com/apourmd941"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apourmd941/selran-hub"
+  },
+  "homepage": "https://github.com/apourmd941/selran-hub",
+  "documentation": "https://github.com/apourmd941/selran-hub/blob/main/MCP_GUIDE.md",
+  "support": "https://github.com/apourmd941/selran-hub/issues",
+  "license": "MIT",
+  "keywords": ["mcp", "data-sources", "local-first", "sqlite", "duckdb", "selran"],
+  "privacy_policies": ["https://github.com/apourmd941/selran-hub/blob/main/PRIVACY.md"],
+  "server": {
+    "type": "python",
+    "entry_point": "server/main.py",
+    "mcp_config": {
+      "command": "python3",
+      "args": ["${__dirname}/server/main.py"],
+      "env": {
+        "SELRAN_HUB_PORT": "${user_config.hub_port}"
+      },
+      "platform_overrides": {
+        "win32": {
+          "command": "python"
+        }
+      }
+    }
+  },
+  "tools": [
+    { "name": "list_sources", "description": "List registered data sources and their status." },
+    { "name": "source_info", "description": "Detailed info about one data source." },
+    { "name": "list_tables", "description": "List tables/files in a data source." },
+    { "name": "preview_data", "description": "Preview rows from a table." },
+    { "name": "table_schema", "description": "Column names and types for a table." },
+    { "name": "query_source", "description": "Run a read-only SQL query against a source." },
+    { "name": "describe_source", "description": "Descriptive statistics for a table." },
+    { "name": "dashboard_stats", "description": "Summary of all data sources." },
+    { "name": "check_source", "description": "Run a health check on a data source." },
+    { "name": "design_picker", "description": "Interactive design-direction picker (MCP Apps / SEP-1865)." },
+    { "name": "data_sources_panel", "description": "Interactive panel of connected data sources (MCP Apps / SEP-1865)." }
+  ],
+  "tools_generated": false,
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "python": ">=3.10"
+    }
+  },
+  "user_config": {
+    "hub_port": {
+      "type": "number",
+      "title": "Selran Hub port",
+      "description": "The loopback port the Selran Hub daemon listens on (default 11999). Change only if you overrode SELRAN_HUB_PORT.",
+      "default": 11999,
+      "required": false
+    }
+  }
+}

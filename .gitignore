@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# Build / packaging
+build/
+dist/
+*.spec
+
+# Frontend build output (shipped as package data, not tracked at repo root)
+frontend/dist/
+
+# macOS / signing artifacts (never commit signing material)
+.DS_Store
+ops/icon/SelranHub.iconset/
+*.p8
+*.pem
+*.key
+*.p12
+*.mobileprovision
+
+# Runtime data (lives in the OS data dir, not the repo — defensive safety net so
+# a secret-bearing file can never slip in if a data dir ever points here)
+*.sqlite3
+*.db
+secrets.json
+auth.json
+sources.json
+update-check.json
+managed-policy.json
+*.mcpb

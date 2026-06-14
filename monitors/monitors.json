@@ -1,0 +1,8 @@
+[
+  {
+    "name": "selran-hub-watch",
+    "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/hub_watch.py\"",
+    "description": "Watches the local Selran Hub and notifies you when a service goes down or the Hub becomes unreachable.",
+    "when": "always"
+  }
+]

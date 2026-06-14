@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "selran-hub": {
+      "command": "selran-hub",
+      "args": ["mcp"]
+    }
+  }
+}
