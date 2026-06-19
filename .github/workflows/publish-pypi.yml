@@ -1,0 +1,58 @@
+name: Publish to PyPI
+
+# Builds the Python package and publishes it to PyPI when a GitHub Release is
+# published on this repo. Uses PyPI Trusted Publishing (OIDC) — there is NO API
+# token stored in the repo or in secrets.
+#
+# One-time PyPI setup (do this once, after the project exists on PyPI):
+#   pypi.org -> project "selran-hub" -> Settings -> Publishing -> Add a publisher
+#     Publisher:    GitHub Actions
+#     Owner:        apourmd941
+#     Repository:   selran-hub
+#     Workflow:     publish-pypi.yml
+#     Environment:  pypi
+#   (To skip the manual first upload, instead add a "pending publisher" with the
+#    same fields at pypi.org/manage/account/publishing before the project exists.)
+#
+# Release flow: bump the version (selran_hub/config.py + pyproject.toml), cut the
+# public snapshot, then publish a GitHub Release whose tag matches the version
+# (e.g. hub-v0.16.0). This workflow then builds + publishes that version to PyPI.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch: {}   # also runnable manually from the Actions tab
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    # Only the public release repo publishes — never a fork or the private mirror.
+    if: github.repository == 'apourmd941/selran-hub'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/selran-hub
+    permissions:
+      id-token: write       # mint the OIDC token Trusted Publishing exchanges
+      contents: read        # job-level perms replace the default, so checkout needs this
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build sdist + wheel
+        run: |
+          python -m pip install --upgrade build
+          python -m build
+
+      - name: Validate metadata
+        run: |
+          python -m pip install --upgrade twine
+          twine check dist/*
+
+      - name: Publish to PyPI (Trusted Publishing / OIDC)
+        uses: pypa/gh-action-pypi-publish@release/v1
