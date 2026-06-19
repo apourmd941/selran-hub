@@ -255,7 +255,7 @@ core is Python/FastAPI and must stay cross-platform from day one.
 
 1. **P1 — developers:** public repo + `bootstrap.sh` (venv + run). Runs on
    all three OSes. Good enough for Hub-aware plugin development.
-2. **P2 — technical users:** `pipx install selran-hub` / Homebrew tap, plus
+2. **P2 — technical users:** `pipx install git+https://github.com/apourmd941/selran-hub` / Homebrew tap (a published PyPI package is planned), plus
    auto-start on boot per OS: LaunchAgent (macOS), systemd user unit (Linux),
    Windows service or Scheduled Task (Windows).
 3. **P3 — everyone, including engineers:** signed + notarized double-click

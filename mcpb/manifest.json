@@ -3,7 +3,7 @@
   "manifest_version": "0.4",
   "name": "selran-hub",
   "display_name": "Selran Hub",
-  "version": "0.9.0",
+  "version": "0.15.1",
   "description": "Query your connected folders, databases, and APIs through the local Selran Hub.",
   "long_description": "One-click bridge that connects Claude Desktop to the **Selran Hub** — a free, local-first daemon running privately on 127.0.0.1. Query your registered folders, DuckDB/SQLite databases, and REST APIs as read-only MCP data sources; inspect tables and schemas; and (in MCP-Apps-capable hosts) pick a design direction or browse your sources in an inline panel. Requires the Selran Hub installed and running separately (pipx install git+https://github.com/apourmd941/selran-hub, or the signed macOS app). Local-first: no telemetry, no cloud backend.",
   "author": {

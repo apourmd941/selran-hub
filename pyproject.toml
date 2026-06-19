@@ -17,10 +17,16 @@ dependencies = [
     "pydantic>=2",
     "duckdb>=0.10",
     "mcp>=1.0",
+    "httpx>=0.25",
     "cryptography>=42",
     "psutil>=5.9",
     "keyring>=24",
 ]
+
+[project.optional-dependencies]
+# Managed-Postgres own-store, used only when HUB_DATABASE_URL is set (psycopg is
+# lazy-imported in pg_store.py). Default installs are file-backed and need none of this.
+postgres = ["psycopg[binary]>=3.1"]
 
 [project.urls]
 Homepage = "https://github.com/apourmd941/selran-hub"

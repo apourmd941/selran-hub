@@ -7,7 +7,11 @@ Selran Hub is a local daemon. It runs entirely on your machine, binds
 detect and use.
 
 - **No data collection, no telemetry.** The Hub has no cloud backend and sends
-  no analytics or usage data anywhere. It makes no network calls of its own.
+  no analytics or usage data anywhere. Its only outbound network call is an
+  **opt-in** update check (`selran-hub update-check`, or background checks when
+  `SELRAN_HUB_UPDATE_CHECK` is set) that asks the public GitHub releases API
+  whether a newer version exists — off by default, it sends nothing about you,
+  and a managed policy can disable it entirely.
 - **Localhost only.** The Hub refuses non-loopback connections and rejects
   cross-origin state-changing requests (so a web page you visit cannot drive
   it). Nothing it manages is reachable from the network.

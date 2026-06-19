@@ -187,8 +187,10 @@ Yes, by design:
 - It binds to **`127.0.0.1` only** — unreachable from the network.
 - It **refuses cross-origin requests**, so a random website you visit can't
   drive it.
-- **No telemetry, no analytics, no cloud backend.** It makes no network calls
-  of its own.
+- **No telemetry, no analytics, no cloud backend.** Its only outbound call is an
+  opt-in update check (`selran-hub update-check`, or when `SELRAN_HUB_UPDATE_CHECK`
+  is set) that asks GitHub whether a newer release exists — off by default and
+  disableable by managed policy.
 - Everything it stores stays on your machine and is yours to inspect or delete:
   port allocations, registered services, pack licenses, and the data sources
   you added.
